@@ -524,6 +524,11 @@ a.text-black:focus {
 .alert-danger {
   background-color: #b1a374;
 }
+.alert-danger-cst {
+  color: #721c24 !important;
+  background-color: #f8d7da !important;
+  border-color: #f5c6cb !important;
+}
 .mbr-section-btn a.btn:not(.btn-form) {
   border-radius: 100px;
 }
@@ -625,7 +630,6 @@ a:hover {
 }
 .alert {
   color: #ffffff;
-  border-radius: 0;
   border: 0;
   font-size: .875rem;
   line-height: 1.5;
@@ -1351,7 +1355,7 @@ pre {
   width: auto;
 }
 .card-img-clear{
-  height: 150px;
+  height: 160px;
   border: 3px dotted #b3b3b3;
   background-color: #f5f5f5;
   cursor: pointer;
@@ -2579,4 +2583,14 @@ body {
 .cid-r2itfWIT3v .input-group-btn {
   display: block;
   text-align: center;
+}
+
+.img-rw{
+  width: 100% !important;
+  height: auto !important;
+}
+
+.img-rh{
+  width: auto !important;
+  height: 100% !important;
 }

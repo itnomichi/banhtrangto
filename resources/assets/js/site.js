@@ -17,7 +17,7 @@ function fn_attach_image(collapse_id) {
     jQuery("#" + collapse_id).find('input[name=img_file]').trigger('click');
 }
 
-function fn_img_cancel(collapse_id){
+function fn_img_cancel(collapse_id) {
     fn_collapse_toggle(collapse_id);
 }
 
@@ -26,9 +26,9 @@ function fn_img_file_change(collapse_id, self) {
 
     reader.onload = function (e) {
         // get loaded data and render thumbnail.
-        if(collapse_id == 'collapse-0')
+        if (collapse_id == 'collapse-0')
             jQuery("#" + collapse_id).find('img').attr('src', e.target.result);
-        else{
+        else {
             jQuery("#" + collapse_id + "-img").find('img').attr('src', e.target.result);
         }
     };
@@ -63,10 +63,15 @@ function fn_login() {
         type: "POST",
         url: '/auth',
         data: {
-            username : username,
-            password : password
+            username: username,
+            password: password
         },
-        success: success,
+        success: function (response) {
+            console.log(response);
+        },
+        error: function (response) {
+            alert("Có lỗi đã xảy ra. \rVui lòng liên hệ với quản trị viên.");
+        }
         dataType: dataType
     });
 }

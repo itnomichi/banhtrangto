@@ -21,7 +21,5 @@ Route::middleware(['guest'])->group(function () {
 Route::middleware(['auth.admin'])->group(function () {
     Route::get('admin', ['as' => 'admin', 'uses' => 'SiteController@admin']);
     Route::get('logout', ['as' => 'logout', 'uses' => 'SiteController@logout']);
-    Route::post('create-img', ['as' => 'create-img', 'uses' => 'SiteController@createImg']);
-    Route::post('update-img', ['as' => 'update-img', 'uses' => 'SiteController@updateImg']);
-    Route::post('delete-img', ['as' => 'delete-img', 'uses' => 'SiteController@deleteImg']);
+    Route::post('save', ['as' => 'save', 'uses' => 'SiteController@save']);
 });

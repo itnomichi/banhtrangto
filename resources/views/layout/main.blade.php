@@ -37,6 +37,6 @@
 <script type="text/javascript" src="{{ asset('dist/touchswipe/jquery.touch-swipe.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('dist/theme/js/script.js') }}"></script>
 <script type="text/javascript" src="{{ asset('dist/slidervideo/script.js') }}"></script>
-<script type="text/javascript" src="{{ asset('js/dashboard.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/site.js') }}"></script>
 </body>
 </html>
