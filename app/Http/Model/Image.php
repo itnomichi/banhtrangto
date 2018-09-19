@@ -11,21 +11,22 @@ class Image
     {
         try {
             if ($data['id'] == 0) {
-                $this->insertImage($data);
+                return $this->insertImage($data);
             } else {
-                $this->updateImage($data);
+                return $this->updateImage($data);
             }
         } catch (\Throwable $e) {
-
+            throw $e;
         }
     }
 
     private function insertImage($data)
     {
         try {
-            DB::beginTransaction();
-            unset($data['id']);
 
+            DB::beginTransaction();
+
+            unset($data['id']);
             $img_file = null;
             if (isset($data['img_file'])) {
                 $img_file = $data['img_file'];
@@ -36,7 +37,6 @@ class Image
             $id = DB::table('images')->insertGetId($data);
 
             if (isset($img_file)) {
-
                 $img_path = public_path('images');
                 $path = $img_file->move(
                     $img_path, "$id.$img_ext"
@@ -48,6 +48,7 @@ class Image
             DB::rollback();
             throw $e;
         }
+        return $id;
     }
 
     private function updateImage($data)
@@ -78,6 +79,7 @@ class Image
             DB::rollback();
             throw $e;
         }
+        return $data['id'];
     }
 
     public function getAllImages()
@@ -92,5 +94,19 @@ class Image
         } catch (\Throwable $e) {
             throw $e;
         }
+    }
+
+    public function getImageById($id)
+    {
+        try {
+            $data = DB::table('images')
+                ->select('*')
+                ->where([['id', '=', $id], ['delete_flg', '=', '0']])
+                ->first();
+            return $data;
+        } catch (\Throwable $e) {
+            throw $e;
+        }
+        return $data;
     }
 }

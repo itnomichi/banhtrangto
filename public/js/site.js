@@ -1,16 +1,31 @@
-function fn_collapse_toggle(collapse_id) {
-    if (jQuery("#collapse-" + collapse_id).hasClass('show')) {
-        jQuery("#collapse-" + collapse_id).removeClass('show');
-        if (collapse_id == '0') {
-            jQuery("#collapse-" + collapse_id).find('img').attr('src', '');
-            jQuery("#collapse-" + collapse_id).find('input[name=img_file]').val('');
-            jQuery("#collapse-" + collapse_id).find('input[name=img_title]').val('');
-            jQuery("#collapse-" + collapse_id).find('input[name=img_money]').val('');
-            jQuery("#collapse-" + collapse_id).find('textarea[name=img_content]').val('');
+function fn_cancel(self) {
+    var card = jQuery(self).closest("div[id=card]");
+    var collapse = card.find('div.collapse');
+    if (collapse.hasClass('show')) {
+
+        collapse.removeClass('show');
+
+        if (card.find('input[name=id]').val() == '0') {
+            fn_clear_card(card);
         }
     } else {
-        jQuery("#collapse-" + collapse_id).addClass('show');
+        collapse.addClass('show');
     }
+}
+
+function fn_clear_card(card) {
+    card.find('img').attr('src', '/images/blank.png');
+    card.find('input[name=img_type]').val('1');
+    card.find('input[name=img_file]').val('');
+    card.find('input[name=img_title]').val('');
+    card.find('input[name=img_money]').val('');
+    card.find('textarea[name=img_content]').val('');
+    card.find('a.img-type').addClass('btn-warning');
+    card.find('a.img-type').removeClass('btn-success-cst');
+    card.find('a.img-type').first().removeClass('btn-warning');
+    card.find('a.img-type').first().addClass('btn-success-cst');
+    card.find('span.mbr-icl').removeClass('mbri-arrow-up');
+    card.find('span.mbr-icl').addClass('mbri-arrow-down');
 }
 
 function fn_attach_image(self) {
@@ -47,12 +62,14 @@ function fn_img_file_change(self) {
     reader.readAsDataURL(self.files[0]);
 }
 
-function fn_collapse_toggle(collapse_id, self) {
+function fn_collapse_toggle(self) {
 
-    if (jQuery("#collapse-" + collapse_id).hasClass('show')) {
-        jQuery("#collapse-" + collapse_id).removeClass('show')
+    var card = jQuery(self).closest("div[id=card]");
+    var collapse = card.find('div.collapse');
+    if (collapse.hasClass('show')) {
+        collapse.removeClass('show')
     } else {
-        jQuery("#collapse-" + collapse_id).addClass('show')
+        collapse.addClass('show')
     }
 
     if (typeof self !== 'undefined') {
@@ -98,6 +115,7 @@ function fn_login() {
 }
 
 function fn_save(self) {
+
     var form = self.closest('#card').querySelector('form');
     var data = new FormData(form);
     jQuery.ajax({
@@ -107,7 +125,18 @@ function fn_save(self) {
         processData: false,
         contentType: false,
         success: function (response) {
-            console.log(response);
+            if (response.success == true) {
+                var card = jQuery(self).closest('#card');
+                var id = card.find('input[name=id]').val();
+                if (id == '0') {
+                    card.after(response.card_html);
+                    fn_clear_card(card);
+                } else {
+                    card.replaceWith(response.card_html);
+                }
+            } else {
+                alert("Có lỗi đã xảy ra. \rVui lòng liên hệ với quản trị viên.");
+            }
         },
         error: function (response) {
             alert("Có lỗi đã xảy ra. \rVui lòng liên hệ với quản trị viên.");
@@ -115,6 +144,25 @@ function fn_save(self) {
     });
 }
 
-function fn_delete(self) {
-
+function fn_delete(self, id) {
+    var form = self.closest('#card').querySelector('form');
+    var data = new FormData(form);
+    data.append('delete_flg', '1');
+    jQuery.ajax({
+        type: "POST",
+        url: '/save',
+        data: data,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            if (response.success == true) {
+                jQuery(self).closest('#card').remove();
+            } else {
+                alert("Có lỗi đã xảy ra. \rVui lòng liên hệ với quản trị viên.");
+            }
+        },
+        error: function (response) {
+            alert("Có lỗi đã xảy ra. \rVui lòng liên hệ với quản trị viên.");
+        }
+    });
 }

@@ -40,7 +40,8 @@ class SiteController extends Controller
                 'img_type',
                 'img_title',
                 'img_money',
-                'img_content'
+                'img_content',
+                'delete_flg'
             );
 
             if ($request->hasFile('img_file')) {
@@ -48,12 +49,18 @@ class SiteController extends Controller
             }
 
             $image = new Image();
-            $image->save($data);
+            $id = $image->save($data);
+            $card = $image->getImageById($id);
+
+            $card_html = '';
+            if ($card != null) {
+                $card_html = view('card', ['image' => $card])->render();
+            }
 
         } catch (\Throwable $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
-        return response()->json(['success' => true, 'message' => 'Thành công.']);
+        return response()->json(['success' => true, 'card_html' => $card_html, 'message' => 'Thành công.']);
     }
 
     public function auth(Request $request)
