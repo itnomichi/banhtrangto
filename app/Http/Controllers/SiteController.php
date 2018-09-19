@@ -26,7 +26,9 @@ class SiteController extends Controller
 
     public function admin()
     {
-        return view('admin');
+        $image = new Image();
+        $data = $image->getAllImages();
+        return view('admin', ['data' => $data]);
     }
 
     public function save(Request $request)

@@ -15,10 +15,10 @@ class CreateImagesTable extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('img_no', 15)->unique();;
+            $table->string('img_ext', '5');
             $table->char('img_type', 1)->default('0');
-            $table->integer('img_money', 1)->default(0);
             $table->string('img_title', 255);
+            $table->integer('img_money')->default(0);
             $table->text('img_content');
             $table->char('delete_flg', 1)->default('0');
             $table->timestamp('created_at')->useCurrent();

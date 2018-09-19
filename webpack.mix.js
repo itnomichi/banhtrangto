@@ -16,4 +16,3 @@ mix.options({
 });
 mix.copyDirectory('resources/assets/js', 'public/js');
 mix.copyDirectory('resources/assets/dist', 'public/dist');
-mix.copyDirectory('resources/assets/images', 'public/images');

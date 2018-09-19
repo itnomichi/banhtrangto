@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\DB;
 
 class Image
 {
-
     public function save($data)
     {
         try {
@@ -21,34 +20,32 @@ class Image
         }
     }
 
-
     private function insertImage($data)
     {
         try {
             DB::beginTransaction();
-            try {
-                unset($data['id']);
+            unset($data['id']);
 
-                $img_file = null;
-                if (isset($data['img_file'])) {
-                    $img_file = $data['img_file'];
-                    unset($data['img_file']);
-                }
-                $id = DB::table('images')->insertGetId($data);
-
-                if (isset($img_file)) {
-                    $img_path = public_path('images');
-                    $path = Storage::putFileAs(
-                        $img_path, $img_file, "$id.jpg"
-                    );
-                }
-
-                DB::commit();
-            } catch (\Throwable $e) {
-                DB::rollback();
-                throw $e;
+            $img_file = null;
+            if (isset($data['img_file'])) {
+                $img_file = $data['img_file'];
+                $img_ext = $img_file->getClientOriginalExtension();
+                $data['img_ext'] = $img_ext;
+                unset($data['img_file']);
             }
+            $id = DB::table('images')->insertGetId($data);
+
+            if (isset($img_file)) {
+
+                $img_path = public_path('images');
+                $path = $img_file->move(
+                    $img_path, "$id.$img_ext"
+                );
+            }
+
+            DB::commit();
         } catch (\Throwable $e) {
+            DB::rollback();
             throw $e;
         }
     }
@@ -56,7 +53,42 @@ class Image
     private function updateImage($data)
     {
         try {
+            DB::beginTransaction();
 
+            $img_file = null;
+            if (isset($data['img_file'])) {
+                $img_file = $data['img_file'];
+                $img_ext = $img_file->getClientOriginalExtension();
+                $data['img_ext'] = $img_ext;
+                unset($data['img_file']);
+            }
+            DB::table('images')
+                ->where([['id', '=', $data['id']], ['delete_flg', '=', '0']])
+                ->update($data);
+
+            if (isset($img_file)) {
+                $img_path = public_path('images');
+                $path = $img_file->move(
+                    $img_path, $data['id'] . ".$img_ext"
+                );
+            }
+
+            DB::commit();
+        } catch (\Throwable $e) {
+            DB::rollback();
+            throw $e;
+        }
+    }
+
+    public function getAllImages()
+    {
+        try {
+            $data = DB::table('images')
+                ->select('*')
+                ->where('delete_flg', '=', '0')
+                ->orderBy('id', 'desc')
+                ->get();
+            return $data;
         } catch (\Throwable $e) {
             throw $e;
         }

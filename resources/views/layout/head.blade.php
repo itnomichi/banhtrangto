@@ -31,9 +31,15 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link link text-white display-4" href="/">
-                        <span class="mbri-image-gallery mbr-iconfont mbr-iconfont-btn">&nbsp;Đăng xuất</span>
-                    </a>
+                    @if(Auth::check())
+                        <a class="nav-link link text-white display-4" href="/logout">
+                            <span class="mbri-image-gallery mbr-iconfont mbr-iconfont-btn">&nbsp;Đăng xuất</span>
+                        </a>
+                    @else
+                        <a class="nav-link link text-white display-4" href="/login">
+                            <span class="mbri-image-gallery mbr-iconfont mbr-iconfont-btn">&nbsp;Đăng nhập</span>
+                        </a>
+                    @endif
                 </li>
             </ul>
 

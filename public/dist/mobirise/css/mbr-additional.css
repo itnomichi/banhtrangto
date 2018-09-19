@@ -1355,7 +1355,6 @@ pre {
   width: auto;
 }
 .card-img-clear{
-  height: 160px;
   border: 3px dotted #b3b3b3;
   background-color: #f5f5f5;
   cursor: pointer;
@@ -2593,4 +2592,8 @@ body {
 .img-rh{
   width: auto !important;
   height: 100% !important;
+}
+
+.media-container-row-custom > .card{
+    display: inline-block;
 }
