@@ -44,28 +44,37 @@
     </section>
 
     <section class="carousel slide cid-r1NPB9uQk4" data-interval="false" id="slider1-8">
-
-
         <div class="full-screen">
             <div class="mbr-slider slide carousel" data-pause="true" data-keyboard="false" data-ride="carousel"
                  data-interval="3000">
                 <ol class="carousel-indicators">
-                    <li data-app-prevent-settings="" data-target="#slider1-8" class=" active" data-slide-to="0"></li>
-                    <li data-app-prevent-settings="" data-target="#slider1-8" data-slide-to="1"></li>
-                    <li data-app-prevent-settings="" data-target="#slider1-8" data-slide-to="2"></li>
+                    <?php $class = "active"; ?>
+                    @foreach($gt_images as $image)
+                        <li data-app-prevent-settings="" data-target="#slider1-8" class="{{ $class }}" data-slide-to="0"></li>
+                        <?php $class = ""; ?>
+                    @endforeach
                 </ol>
                 <div class="carousel-inner" role="listbox">
-                    <div class="carousel-item slider-fullscreen-image active" data-bg-video-slide="false"
-                         style="background-image: url({{ asset('images/img(72).jpg') }});">
-                        <div class="container container-slide">
-                            <div class="image_wrapper">
-                                <img src="{{ asset('images/img(72).jpg') }}">
-                                <div class="carousel-caption justify-content-center">
-                                    <div class="col-10 align-left"></div>
+                    <?php $class = "active"; ?>
+                    @foreach($gt_images as $image)
+                        <div class="carousel-item slider-fullscreen-image {{ $class }}" data-bg-video-slide="false"
+                             style="background-image: url({{ asset('images/' . $image->id . '.' . $image->img_ext) }});">
+                            <div class="container container-slide">
+                                <div class="image_wrapper">
+                                    <img src="{{ asset('images/' . $image->id . '.' . $image->img_ext) }}">
+                                    <div class="carousel-caption justify-content-center">
+                                        <div class="col-10 align-left">
+                                            <h2 class="mbr-fonts-style display-1">{{ $image->img_title }}</h2>
+                                            <p class="lead mbr-text mbr-fonts-style display-5">
+                                                {{ $image->img_content }}
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        <?php $class = ""; ?>
+                    @endforeach
                 </div>
                 <a data-app-prevent-settings="" class="carousel-control carousel-control-prev" role="button"
                    data-slide="prev" href="#slider1-8">
@@ -79,67 +88,56 @@
                 </a>
             </div>
         </div>
-
     </section>
 
     <section class="header3 cid-r1NUqzA2Cg" id="header3-e">
-
-
         <div class="container">
-            <div class="media-container-row">
-                <div class="mbr-figure" style="width: 100%;">
-                    <img src="{{ asset('images/39a2abd42c62f57b9367be84957814b2-960x664.jpg') }}" title="">
-                </div>
-                <div class="media-content">
-                    <h1 class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-1">
-                        Bánh tráng tô
-                    </h1>
+            @foreach($sp_images as $image)
+                <div class="media-container-row">
+                    <div class="mbr-figure" style="width: 100%;">
+                        <img src="{{ asset('images/' . $image->id . '.' . $image->img_ext) }}" title="">
+                    </div>
+                    <div class="media-content">
+                        <h1 class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-1">
+                            {{ $image->img_title }}
+                        </h1>
 
-                    <div class="mbr-section-text mbr-white pb-3 ">
-                        <p class="mbr-text mbr-fonts-style display-5">Nhập khẩu trực tiếp từ Thái Lan</p>
-                    </div>
-                    <div class="mbr-section-btn">
-                        <a class="btn btn-md btn-primary display-4" href="#">Đặt hàng</a>
-                        <a class="btn btn-md btn-white-outline display-4" href="#">1000<br></a>
+                        <div class="mbr-section-text mbr-white pb-3 ">
+                            <p class="mbr-text mbr-fonts-style display-5">
+                                {{ $image->img_content }}
+                            </p>
+                        </div>
+                        <div class="mbr-section-btn">
+                            <a class="btn btn-md btn-primary display-4" href="#">Đặt hàng</a>
+                            <a class="btn btn-md btn-white-outline display-4" href="#">{{ $image->img_money }}<br></a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endforeach
         </div>
-
     </section>
 
     <section class="features13 cid-r1NTDmNjGw mbr-parallax-background" id="features13-c">
 
-
         <div class="container">
             <h2 class="mbr-section-title pb-3 mbr-fonts-style display-2">Thành phần</h2>
-            <div class="media-container-row container">
-                <div class="card col-12 col-md-6 p-5 m-3 align-center col-lg-4">
-                    <div class="card-img">
-                        <img src="{{ asset('images/img-1535622179121-1535642290863-1200x1200.jpg') }}" alt="Mobirise"
-                             title="">
+            @foreach($tp_images as $images)
+                <div class="media-container-row container">
+                    @foreach($images as $image)
+                        <div class="card col-12 col-md-6 p-5 m-3 align-center col-lg-4">
+                        <div class="card-img">
+                            <img src="{{ asset('images/' . $image->id . '.' . $image->img_ext) }}">
+                        </div>
+                        <h4 class="card-title py-2 mbr-fonts-style display-5">
+                            {{ $image->img_title }}
+                        </h4>
+                        <p class="mbr-text mbr-fonts-style display-7">
+                            {{ $image->img_content }}
+                        </p>
                     </div>
-                    <h4 class="card-title py-2 mbr-fonts-style display-5">
-                        Hành</h4>
-                    <p class="mbr-text mbr-fonts-style display-7">
-                        nhà trồng</p>
+                    @endforeach
                 </div>
-                <div class="card col-12 col-md-6 p-5 m-3 align-center col-lg-4">
-                    <div class="card-img">
-                        <img src="{{ asset('images/jumbotron2.jpg') }}" alt="Mobirise">
-                    </div>
-                    <h4 class="card-title py-2 mbr-fonts-style display-5">
-                        Tỏi</h4>
-                    <p class="mbr-text mbr-fonts-style display-7">nhà mua</p>
-                </div>
-                <div class="card col-12 col-md-6 p-5 m-3 align-center col-lg-4">
-                    <div class="card-img">
-                        <img src="{{ asset('images/background5.jpg') }}" alt="Mobirise">
-                    </div>
-                    <h4 class="card-title py-2 mbr-fonts-style display-5">Ớt</h4>
-                    <p class="mbr-text mbr-fonts-style display-7">nhà hàng xóm<br></p>
-                </div>
-            </div>
+            @endforeach
         </div>
     </section>
 

@@ -16,19 +16,44 @@ class SiteController extends Controller
 
     public function login()
     {
-        return view('login');
+        try {
+            return view('login');
+        } catch (\Throwable $e) {
+            throw $e;
+        }
     }
 
     public function home()
     {
-        return view('home');
+        try {
+
+            $image = new Image();
+            $sp_images = $image->getSPImages();
+            $tp_images = $image->getTPImages();
+            $gt_images = $image->getGTImages();
+
+            return view(
+                'home',
+                [
+                    'sp_images' => $sp_images,
+                    'tp_images' => $tp_images,
+                    'gt_images' => $gt_images,
+                ]
+            );
+        } catch (\Throwable $e) {
+            throw $e;
+        }
     }
 
     public function admin()
     {
-        $image = new Image();
-        $data = $image->getAllImages();
-        return view('admin', ['data' => $data]);
+        try {
+            $image = new Image();
+            $data = $image->getAllImages();
+            return view('admin', ['data' => $data]);
+        } catch (\Throwable $e) {
+            throw $e;
+        }
     }
 
     public function save(Request $request)
@@ -65,29 +90,36 @@ class SiteController extends Controller
 
     public function auth(Request $request)
     {
+        try {
+            $credentials = $request->only('username', 'password');
 
-        $credentials = $request->only('username', 'password');
+            $rules = [
+                'username' => 'required',
+                'password' => 'required',
+            ];
 
-        $rules = [
-            'username' => 'required',
-            'password' => 'required',
-        ];
+            $validator = Validator::make($credentials, $rules);
+            if ($validator->fails()) {
+                return response()->json(['success' => false, 'message' => $validator->messages()]);
+            }
 
-        $validator = Validator::make($credentials, $rules);
-        if ($validator->fails()) {
-            return response()->json(['success' => false, 'message' => $validator->messages()]);
+            if (Auth::attempt($credentials)) {
+                // Authentication passed...
+                return response()->json(['success' => true, 'message' => 'Đăng nhập thành công.']);
+            }
+            return response()->json(['success' => false, 'message' => 'Đăng nhập không thành công.']);
+        } catch (\Throwable $e) {
+            throw $e;
         }
-
-        if (Auth::attempt($credentials)) {
-            // Authentication passed...
-            return response()->json(['success' => true, 'message' => 'Đăng nhập thành công.']);
-        }
-        return response()->json(['success' => false, 'message' => 'Đăng nhập không thành công.']);
     }
 
     public function logout()
     {
-        Auth::logout();
-        return redirect('/');
+        try {
+            Auth::logout();
+            return redirect('/');
+        } catch (\Throwable $e) {
+            throw $e;
+        }
     }
 }

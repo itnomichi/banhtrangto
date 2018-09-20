@@ -96,6 +96,64 @@ class Image
         }
     }
 
+    public function getSPImages()
+    {
+        try {
+            $data = DB::table('images')
+                ->select('*')
+                ->where([['delete_flg', '=', '0'], ['img_type', '=', '1']])
+                ->orderBy('id', 'desc')
+                ->get();
+            return $data;
+        } catch (\Throwable $e) {
+            throw $e;
+        }
+    }
+
+    public function getTPImages()
+    {
+        try {
+            $tmp_data = DB::table('images')
+                ->select('*')
+                ->where([['delete_flg', '=', '0'], ['img_type', '=', '2']])
+                ->orderBy('id', 'desc')
+                ->get();
+
+            $data = [];
+            $group_data = [];
+            foreach ($tmp_data as $image) {
+                $group_data[] = $image;
+                if (sizeof($group_data) == 3) {
+                    $data[] = $group_data;
+                    $group_data = [];
+                }
+            }
+
+            if (sizeof($group_data) > 0) {
+                $data[] = $group_data;
+                $group_data = [];
+            }
+
+            return $data;
+        } catch (\Throwable $e) {
+            throw $e;
+        }
+    }
+
+    public function getGTImages()
+    {
+        try {
+            $data = DB::table('images')
+                ->select('*')
+                ->where([['delete_flg', '=', '0'], ['img_type', '=', '3']])
+                ->orderBy('id', 'desc')
+                ->get();
+            return $data;
+        } catch (\Throwable $e) {
+            throw $e;
+        }
+    }
+
     public function getImageById($id)
     {
         try {

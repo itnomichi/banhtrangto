@@ -48,6 +48,15 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if (env('APP_ENV') == 'production' && (
+                $exception instanceof QueryException ||
+                $exception instanceof \ErrorException)
+        ) {
+            if ($request->expectsJson() === true) {
+                return response()->json(['success' => false, 'message' => $exception->getMessage()], 500);
+            }
+            return response()->view('errors.500', [], 500);
+        }
         return parent::render($request, $exception);
     }
 }
