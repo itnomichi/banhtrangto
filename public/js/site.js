@@ -32,8 +32,8 @@ function fn_attach_image(self) {
     jQuery(self).closest("div[id=card]").find('input[name=img_file]').trigger('click');
 }
 
-function fn_img_cancel(collapse_id) {
-    fn_collapse_toggle(collapse_id);
+function fn_img_cancel(self) {
+    fn_collapse_toggle(self);
 }
 
 function fn_img_file_change(self) {
@@ -165,4 +165,66 @@ function fn_delete(self, id) {
             alert("Có lỗi đã xảy ra. \rVui lòng liên hệ với quản trị viên.");
         }
     });
+}
+
+function fn_order(self, event) {
+    event.preventDefault();
+    var order = jQuery(self).closest("div[id=order]");
+    var collapse = order.find('div.collapse');
+    if (collapse.hasClass('show')) {
+        jQuery(self).html('Đặt hàng');
+        collapse.removeClass('show');
+        order.find('input[name=ord_quantity]').val("1");
+        order.find('input[name=ord_phone]').val("");
+        order.find('textarea[name=ord_notes]').val("");
+    } else {
+        jQuery(self).html('Hủy');
+        collapse.addClass('show');
+    }
+}
+
+function fn_order_confirm(self, event) {
+    event.preventDefault();
+    var order = jQuery(self).closest("div[id=order]");
+    var img_id = order.find('input[name=img_id]').val();
+    var _token = jQuery('input[name=_token]').val();
+    var ord_quantity = order.find('input[name=ord_quantity]').val();
+    var ord_phone = order.find('input[name=ord_phone]').val();
+    var ord_notes = order.find('textarea[name=ord_notes]').val();
+    if (ord_quantity == '' || ord_quantity == '0' || isNaN(ord_quantity)) {
+        alert('Xin vui lòng nhập số lượng');
+        return false;
+    }
+
+    if (ord_phone == '') {
+        alert('Xin vui lòng nhập số điện thoại');
+        return false;
+    }
+
+    var data = new FormData();
+    data.append('_token', _token);
+    data.append('img_id', img_id);
+    data.append('ord_quantity', ord_quantity);
+    data.append('ord_phone', ord_phone);
+    data.append('ord_notes', ord_notes);
+
+    jQuery.ajax({
+        type: "POST",
+        url: '/order',
+        data: data,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            if (response.success == true) {
+                alert("Đặt hàng thành công.");
+                jQuery("#btn-dathang").trigger('click');
+            } else {
+                alert("Có lỗi đã xảy ra. \rVui lòng liên hệ trực tiếp qua điện thoại.");
+            }
+        },
+        error: function (response) {
+            alert("Có lỗi đã xảy ra. \rVui lòng liên hệ với quản trị viên.");
+        }
+    });
+
 }

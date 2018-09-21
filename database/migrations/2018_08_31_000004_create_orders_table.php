@@ -16,7 +16,7 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
             $table->string('ord_no', 15)->unique();
-            $table->string('img_no', 15);
+            $table->integer('img_id')->default(0);
             $table->integer('ord_quantity')->default(0);
             $table->string('ord_phone', 11);
             $table->text('ord_notes');

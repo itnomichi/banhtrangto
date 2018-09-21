@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
-
 class SiteController extends Controller
 {
 
@@ -86,6 +85,26 @@ class SiteController extends Controller
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
         return response()->json(['success' => true, 'card_html' => $card_html, 'message' => 'Thành công.']);
+    }
+
+    public function order(Request $request)
+    {
+        try {
+
+            $data = $request->only(
+                'img_id',
+                'ord_quantity',
+                'ord_phone',
+                'ord_notes'
+            );
+
+            $order = new Order();
+            $order->save($data);
+
+        } catch (\Throwable $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
+        }
+        return response()->json(['success' => true, 'message' => 'Thành công.']);
     }
 
     public function auth(Request $request)

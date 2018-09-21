@@ -43,7 +43,8 @@
         </nav>
     </section>
 
-    <section class="carousel slide cid-r1NPB9uQk4" data-interval="false" id="slider1-8">
+    @if(sizeof($gt_images) > 0)
+        <section class="carousel slide cid-r1NPB9uQk4" data-interval="false" id="slider1-8">
         <div class="full-screen">
             <div class="mbr-slider slide carousel" data-pause="true" data-keyboard="false" data-ride="carousel"
                  data-interval="3000">
@@ -89,35 +90,64 @@
             </div>
         </div>
     </section>
+    @endif
 
-    <section class="header3 cid-r1NUqzA2Cg" id="header3-e">
-        <div class="container">
-            @foreach($sp_images as $image)
-                <div class="media-container-row">
-                    <div class="mbr-figure" style="width: 100%;">
-                        <img src="{{ asset('images/' . $image->id . '.' . $image->img_ext) }}" title="">
-                    </div>
-                    <div class="media-content">
-                        <h1 class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-1">
-                            {{ $image->img_title }}
-                        </h1>
-
-                        <div class="mbr-section-text mbr-white pb-3 ">
-                            <p class="mbr-text mbr-fonts-style display-5">
-                                {{ $image->img_content }}
-                            </p>
+    @if(sizeof($sp_images) > 0)
+        {{ csrf_field() }}
+        <section class="header3 cid-r1NUqzA2Cg-cst" id="header3-e">
+            <div class="container">
+                @foreach($sp_images as $image)
+                    <div id="order" class="media-container-row">
+                        <input type="hidden" name="img_id" value="{{$image->id}}">
+                        <div class="mbr-figure" style="width: 100%;">
+                            <img src="{{ asset('images/' . $image->id . '.' . $image->img_ext) }}" title="">
                         </div>
-                        <div class="mbr-section-btn">
-                            <a class="btn btn-md btn-primary display-4" href="#">Đặt hàng</a>
-                            <a class="btn btn-md btn-white-outline display-4" href="#">{{ $image->img_money }}<br></a>
+                        <div class="media-content">
+                            <h1 class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-1">
+                                {{ $image->img_title }}
+                            </h1>
+
+                            <div class="mbr-section-text mbr-white pb-3 ">
+                                <p class="mbr-text mbr-fonts-style display-5">
+                                    {{ $image->img_content }}
+                                </p>
+                            </div>
+                            <div class="mbr-section-btn">
+                                <a class="btn btn-md btn-primary display-4"id="btn-dathang" href="#" onclick="fn_order(this, event)">Đặt hàng</a>
+                                <a class="btn btn-md btn-white-outline display-4" href="#">{{ number_format($image->img_money) }} VNĐ<br></a>
+                            </div>
+                            <div class="collapse">
+                                <div class="row row-sm-offset mbr-white">
+                                    <div class="col-md-6 multi-horizontal">
+                                        <div class="form-group">
+                                            <label class="form-control-label mbr-fonts-style display-7">Số lượng</label>
+                                            <input type="text" class="form-control form-control-cst" name="ord_quantity" value="1">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 multi-horizontal">
+                                        <div class="form-group">
+                                            <label class="form-control-label mbr-fonts-style display-7">Số điện thoại</label>
+                                            <input type="text" class="form-control form-control-cst" name="ord_phone">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group mbr-white">
+                                    <label class="form-control-label mbr-fonts-style display-7">Ghi chú</label>
+                                    <textarea type="text" class="form-control form-control-cst" name="ord_notes" rows="2"></textarea>
+                                </div>
+                                <div class="mbr-section-btn">
+                                    <a class="btn btn-md btn-primary display-4" href="#" onclick="fn_order_confirm(this, event)">Xác nhận</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            @endforeach
-        </div>
-    </section>
+                @endforeach
+            </div>
+        </section>
+    @endif
 
-    <section class="features13 cid-r1NTDmNjGw mbr-parallax-background" id="features13-c">
+    @if(sizeof($tp_images) > 0)
+        <section class="features13 cid-r1NTDmNjGw mbr-parallax-background" id="features13-c">
 
         <div class="container">
             <h2 class="mbr-section-title pb-3 mbr-fonts-style display-2">Thành phần</h2>
@@ -140,6 +170,7 @@
             @endforeach
         </div>
     </section>
+    @endif
 
     <section class="cid-r1NRRZFRBj" id="footer2-b">
         <div class="container">

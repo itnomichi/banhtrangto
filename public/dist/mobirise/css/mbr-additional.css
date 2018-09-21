@@ -661,7 +661,7 @@ a:hover {
 }
 
 .form-control-cst {
-  min-height: 3em;
+  min-height: 2.5em;
   padding: 0.3em;
 }
 .form-control > .mbr-iconfont {
@@ -2035,6 +2035,31 @@ body {
 }
 @media (max-width: 767px) {
   .cid-r1NUqzA2Cg .mbr-text {
+    text-align: center;
+  }
+}
+.cid-r1NUqzA2Cg-cst {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  background-color: #faa0b6;
+}
+.cid-r1NUqzA2Cg-cst .media-container-row {
+  flex-direction: row-reverse;
+}
+@media (min-width: 992px) {
+  .cid-r1NUqzA2Cg-cst .mbr-figure {
+    padding-right: 4rem;
+    padding-right: 0;
+    padding-left: 4rem;
+  }
+}
+@media (max-width: 991px) {
+  .cid-r1NUqzA2Cg-cst .mbr-figure {
+    padding-bottom: 3rem;
+  }
+}
+@media (max-width: 767px) {
+  .cid-r1NUqzA2Cg-cst .mbr-text {
     text-align: center;
   }
 }
