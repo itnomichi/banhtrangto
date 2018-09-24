@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Model\Image;
-use App\Model\Order;
+use App\Models\Image;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -99,7 +99,8 @@ class SiteController extends Controller
             );
 
             $order = new Order();
-            $order->save($data);
+            $id = $order->save($data);
+            $order->sendOrderToSlack($id);
 
         } catch (\Throwable $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()]);

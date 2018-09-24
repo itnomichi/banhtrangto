@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Model;
+namespace App\Models;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
-use Zalo\Zalo;
-use Zalo\ZaloConfig;
+use App\Notifications\NotifyToSlackChannel;
 
 class Order
 {
@@ -16,6 +15,7 @@ class Order
         } catch (\Throwable $e) {
             throw $e;
         }
+        return $id;
     }
 
     private function insertOrder($data)
@@ -25,7 +25,6 @@ class Order
             DB::beginTransaction();
             $data['ord_no'] = uniqid();
             $id = DB::table('orders')->insertGetId($data);
-            $this->sendOrderToZalo($id);
             DB::commit();
         } catch (\Throwable $e) {
             DB::rollback();
@@ -34,7 +33,7 @@ class Order
         return $id;
     }
 
-    public function getOrderById($id)
+    private function getOrderById($id)
     {
         try {
             $data = DB::table('orders')
@@ -47,12 +46,11 @@ class Order
         return $data;
     }
 
-    private function sendOrderToZalo($id)
+    public function sendOrderToSlack($id)
     {
         try {
-            $oder = $this->getOrderById($id);
-            $config = ZaloConfig::getInstance()->getConfig();
-            $zalo = new Zalo($config);
+            $order = $this->getOrderById($id);
+            return (new Notify())->notify(new NotifyToSlackChannel());
         } catch (\Throwable $e) {
             throw $e;
         }
