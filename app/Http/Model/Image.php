@@ -161,7 +161,6 @@ class Image
                 ->select('*')
                 ->where([['id', '=', $id], ['delete_flg', '=', '0']])
                 ->first();
-            return $data;
         } catch (\Throwable $e) {
             throw $e;
         }
