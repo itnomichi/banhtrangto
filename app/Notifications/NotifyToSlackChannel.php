@@ -9,15 +9,16 @@ use Illuminate\Notifications\Notification;
 class NotifyToSlackChannel extends Notification
 {
     use Queueable;
+    private $order = "";
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($order)
     {
-
+        $this->order = $order;
     }
 
     /**
@@ -39,7 +40,20 @@ class NotifyToSlackChannel extends Notification
      */
     public function toSlack($notifiable)
     {
-        return (new SlackMessage)->content('Yuhuuuuuu!');
+        $order = $this->order;
+        return (new SlackMessage)
+            ->success()
+            ->content('Đơn hàng')
+            ->attachment(function ($attachment) use ($order) {
+                $attachment->title("Mã Đơn Hàng : " . strtoupper($order->ord_no))
+                    ->fields([
+                        'Tên sản phẩm' => $order->img_title,
+                        'Số lượng' => $order->ord_quantity,
+                        'Số tiền' => number_format($order->ord_quantity * $order->img_money) . " VNĐ",
+                        'Điện thoại' => $order->ord_phone,
+                        'Ghi chú' => $order->ord_notes
+                    ]);
+            });
     }
 
     /**

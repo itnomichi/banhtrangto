@@ -37,8 +37,9 @@ class Order
     {
         try {
             $data = DB::table('orders')
-                ->select('*')
-                ->where([['id', '=', $id], ['delete_flg', '=', '0']])
+                ->leftJoin('images', 'orders.img_id', '=', 'images.id')
+                ->select('orders.*', 'images.img_title', 'images.img_money')
+                ->where([['orders.id', '=', $id], ['orders.delete_flg', '=', '0']])
                 ->first();
         } catch (\Throwable $e) {
             throw $e;
@@ -50,7 +51,7 @@ class Order
     {
         try {
             $order = $this->getOrderById($id);
-            return (new Notify())->notify(new NotifyToSlackChannel());
+            return (new Notify())->notify(new NotifyToSlackChannel($order));
         } catch (\Throwable $e) {
             throw $e;
         }

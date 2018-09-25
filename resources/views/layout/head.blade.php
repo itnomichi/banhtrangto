@@ -1,6 +1,6 @@
 <section class="menu cid-qTkzRZLJNu" once="menu" id="menu1-0">
 
-    <nav class="navbar navbar-expand beta-menu navbar-dropdown align-items-center navbar-fixed-top collapsed bg-color transparent">
+    <nav class="navbar navbar-expand beta-menu navbar-dropdown align-items-center navbar-fixed-top collapsed transparent bg-color">
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <div class="hamburger">
                 <span></span>
@@ -17,7 +17,7 @@
                     </a>
                 </span>
                 <span class="navbar-caption-wrap">
-                    <a class="navbar-caption text-secondary display-4" href="/">Bánh tráng tô</a>
+                    <a class="navbar-caption text-secondary-cst display-4" href="/">Bánh tráng tô</a>
                 </span>
             </div>
         </div>
@@ -35,7 +35,7 @@
                         </a>
                     @else
                         <a class="nav-link link text-white display-4" href="/login">
-                            <span class="mbri-image-gallery mbr-iconfont mbr-iconfont-btn">&nbsp;Đăng nhập</span>
+                            <span class="mbri-users mbr-iconfont mbr-iconfont-btn">&nbsp;Đăng nhập</span>
                         </a>
                     @endif
                 </li>
