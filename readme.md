@@ -1,6 +1,4 @@
-<div style="width:150px; height:100px">
 ![logo](./public/images/1.jpg)
-</div>
 
 ## Table of contents
 * [General info](#general-info)
