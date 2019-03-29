@@ -1,4 +1,4 @@
-![logo](./public/images/1.jpg){ width=50% }
+![logo|100x20](./public/images/1.jpg){ width=50% }
 
 ## Table of contents
 * [General info](#general-info)
