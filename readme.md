@@ -1,4 +1,4 @@
-![logo](./public/images/1.jpg)
+![logo](./public/images/1.jpg =100x)
 
 ## Table of contents
 * [General info](#general-info)
